@@ -1,3 +1,1 @@
-# garbanzo
-
-# This is my first github repository
+# Repository for Machine Learning for Public Policy (CAPP 30254) @ UChicago
