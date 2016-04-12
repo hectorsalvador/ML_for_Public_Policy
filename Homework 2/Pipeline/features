@@ -1,0 +1,36 @@
+### Machine Learning for Public Policy
+### Pipeline: Generate features
+### Héctor Salvador López
+
+### Functions for dataframes
+
+def binning_feature(dataframe, feature, num_bins, bin_type = 'interval'):
+	'''
+	Assumes a that a pandas dataframe is passed.
+
+	Takes:
+		dataframe, a pandas dataframe 
+		feature, the feature that should be discretized, this procedure will 
+			throw observations of a feature into "bins"
+		num_bins, an integer indicating the number of bins to create
+		bin_type, a string indicating type if bins:
+			interval, will create equal interval bins
+			frequency, will create equal frequency bins
+	'''
+	bin_type = ['interval', 'frequency']
+
+	pass
+
+def binarize_feature(dataframe, feature, categories):
+	'''
+	Assumes that a pandas dataframe is passed.
+
+	Takes:
+		dataframe, a pandas dataframe 
+		feature, the feature that should be binarize, this procedure will 
+			throw observations of a feature into "bins"
+		categories, a list of the categories we want to create (which should be
+			valid values of feature)
+	
+	'''
+	pass

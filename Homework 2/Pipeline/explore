@@ -1,0 +1,39 @@
+### Machine Learning for Public Policy
+### Pipeline: Explore
+### Héctor Salvador López
+
+import pandas as pd
+
+def explore(data, data_type):
+	'''
+	Takes:
+		filename, a string with the path to the data file
+		data_type, a string with the type of file in which the data is saved
+		(for example: "csv", "json")
+	
+	Returns:
+		a data structure
+	'''
+	data_types_all = ['csv', 'json']
+	assert data_type in data_types_all
+
+	if data_type == 'csv':
+		pass
+	elif data_type == 'json':
+		pass
+
+	return []
+
+def explore_csv(data):
+	'''
+	'''
+
+	data.describe()
+
+	for variable in 'somewhere':
+		figure = plt.figure()
+		data[variable].hist()
+		plt.ylabel('Frequency')
+		plt.title('{}'.format(variable))
+		plt.savefig('{}'.format(variable) + '_hist')
+		

@@ -1,0 +1,37 @@
+### Machine Learning for Public Policy
+### Pipeline: Evaluate classifier
+### Héctor Salvador López
+
+import math
+import numpy as np
+
+
+def accuracy(predicted, observed):
+	'''
+	Takes:
+		predicted, a list with floats or integers with predicted values
+		observed, a list with floats or integers with observed values 
+
+	Calculates the accuracy of the predicted values.
+	'''
+	pass
+
+def mse(predicted, observed):
+	'''
+	Takes:
+		predicted, a list with floats or integers with predicted values
+		observed, a list with floats or integers with observed values 
+
+	Calculates the mean squared error of the predicted values.
+	'''
+	pass
+
+def mad(predicted, observed):
+	'''
+	Takes:
+		predicted, a list with floats or integers with predicted values
+		observed, a list with floats or integers with observed values 
+
+	Calculates the mean absolute deviation of the predicted values.
+	'''
+	pass
