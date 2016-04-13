@@ -27,7 +27,7 @@ def logistic_regression(y, x, threshold):
 		else:
 			yhat.append(0)
 
-	return yhat
+	return yhat, result
 
 def linear_regression(data):
 	pass
