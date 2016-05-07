@@ -1,7 +1,9 @@
 ### Machine Learning for Public Policy
-### Pipeline: Build classifier
+### Pipeline: Build, select, and evaluate classifiers
 ### Héctor Salvador López
 
+import matplotlib.pyplot as plt 
+import numpy as np
 import pandas as pd
 from sklearn.svm import LinearSVC
 from sklearn.cross_validation import train_test_split
@@ -12,7 +14,8 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.grid_search import ParameterGrid
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, precision_recall_curve
 import time
-import numpy as np
+
+plt.style.use('ggplot')
 
 # Classifiers to test
 classifiers = {'LR': LogisticRegression(),

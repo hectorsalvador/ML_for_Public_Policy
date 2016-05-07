@@ -1,5 +1,5 @@
 ### Machine Learning for Public Policy
-### Homework 2
+### Homework 3
 ### Héctor Salvador López
 ### Code for the pipeline was significantly inspired on:
 ### 	/rayidghani/magicloops/blob/master/magicloops.py
@@ -30,10 +30,8 @@ def go(filename):
 
 	# divide dataset to train and test
 	xtrain, xtest, ytrain, ytest = train_test_split(df[fts], df[label])
-	train = xtrain.copy()
-	train[label] = ytrain
-	test = xtest.copy()
-	test[label] = ytest
+	train = pd.concat([ytrain, xtrain], axis = 1)
+	test = pd.concat([ytest, xtest], axis = 1)
 	df = train
 
 	# generate statistics and generic exploration histograms
@@ -53,4 +51,6 @@ def go(filename):
 	# deploy classifiers
 	models = ['LR', 'KNN', 'DT', 'SVM', 'RF', 'GB']
 	results, models = classify.classify(df[fts], df[label], models, 3, 0.05)
+
+	#
 
