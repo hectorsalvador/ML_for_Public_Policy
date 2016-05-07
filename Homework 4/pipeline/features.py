@@ -3,7 +3,7 @@
 ### Héctor Salvador López
 
 ### Functions for dataframes
-
+import pandas as pd
 
 def binning(data, feature, type_cut, quantiles = 0.5, bins = 1):
 	'''
@@ -17,12 +17,11 @@ def binning(data, feature, type_cut, quantiles = 0.5, bins = 1):
 	valid_cuts = ['quantiles', 'bins']
 	assert type_cut in valid_cuts
 
-	bins = 'bins_' + str(feature)
-
+	bins = 'bins_{}'.format(feature)
 	if type_cut == 'quantiles':
-		data[bin] = pd.qcut(data[feature], quantiles, labels=False)
+		data[bins] = pd.qcut(data[feature], quantiles, labels=False)
 	elif type_cut == 'n':
-		data[bin] = pd.cut(data[feature], bins, labels=False)
+		data[bins] = pd.cut(data[feature], bins, labels=False)
 
 
 def binarize(data, feature, control):

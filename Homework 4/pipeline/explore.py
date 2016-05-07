@@ -21,7 +21,6 @@ def statistics_csv(data):
 	'''
 	summary = data.describe().T
 	summary['median'] = data.median()
-	summary['skewness'] = data.skew
 	summary['skew'] = data.skew() # skew of normal dist = 0
 	summary['kurtosis'] = data.kurt() # kurtosis of normal dist = 0
 	summary['missing_vals'] = data.count().max() - data.describe().T['count']
@@ -63,21 +62,19 @@ def plots_csv(data):
 		plt.close()
 
 
-def crosstabs_csv(data, categorical, features):
+def crosstabs_csv(data, label, features):
 	'''
 	Takes:
 		data, a pd.dataframe
-		categorical, an int indicating a feature with a categorical feature
-		covariates, a list of ints with the feature numbers of covariates
+		categorical, an int indicating a label
+		covariates, a list of strings with the features
 
 	Prints crosstabs of desired features.
 	'''
 	keys = [i for i in data.keys()]
 	for feature in features:
-		print('Crosstab table for {} and {}:'.format(keys[categorical],\
-			keys[feat]))
-		print('{}'.format(pd.crosstab(data[keys[categorical]], \
-			data[keys[feat]])) + '\n')
+		print('Crosstab table for {} and {}:'.format(label, feature))
+		print('{}'.format(pd.crosstab(data[label], data[feature])) + '\n')
 
 
 		

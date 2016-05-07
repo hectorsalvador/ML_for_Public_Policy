@@ -19,7 +19,7 @@ def impute_csv(data, fill_type='mean', val=0):
 		feature_has_nulls = data[feature].isnull().values.any()
 		print('{}) {} has null values: {}.'.format(j, feature, feature_has_nulls))
 		if feature_has_nulls:
-			print('	Filling nulls with {}.'.format(fill_type))
+			print('  Filling nulls with {}.'.format(fill_type))
 			if fill_type == 'mean':
 				filling = data[feature].mean()
 			elif fill_type == 'median':
