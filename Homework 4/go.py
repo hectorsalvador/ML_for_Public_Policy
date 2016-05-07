@@ -35,18 +35,22 @@ def go(filename):
 	df = train
 
 	# generate statistics and generic exploration histograms
-	explore.statistics_csv(df)
-	# explore.plots_csv(df)
-	# explore.crosstabs_csv(df, label, fts)
+	explore.basics(df)
+	explore.desc_statistics(df)
+	explore.corr(df)
+	explore.plots(df)
+	explore.crosstabs(df, label, fts)
 
 	# dive deeper into histograms
 
 	# impute null values with mean value and transform income to log(income)
 	preprocess.impute_csv(df)
 	preprocess.transform_feature(df, 'MonthlyIncome', lambda x: math.log(x + 1))
+	fts.append(df.keys()[-1])
 
 	# create a feature of income quartile
 	features.binning(df, 'f(MonthlyIncome)', 'quantiles', [0, 0.25, 0.5, 0.75, 1])
+	fts.append(df.keys()[-1])
 
 	# deploy classifiers
 	models = ['LR', 'KNN', 'DT', 'SVM', 'RF', 'GB']

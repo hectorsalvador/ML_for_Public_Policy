@@ -6,7 +6,17 @@ import pandas as pd
 import matplotlib.pyplot as plt 
 plt.style.use('ggplot')
 
-def statistics_csv(data):
+def basics(data):
+	print('Observations:\n' + '{}\n'.format(data.shape[0]))
+	print('{} features:'.format(data.shape[1]))
+	i = 1
+	for key in data.keys():
+		print('    {}) {}'.format(i, key))
+		i += 1
+	print('\n')
+	print('Sample observations:\n' + '{}\n'.format(data.head()))
+
+def desc_statistics(data):
 	'''
 	Takes:
 		data, a pd.dataframe 
@@ -22,20 +32,13 @@ def statistics_csv(data):
 	summary['skew'] = data.skew() # skew of normal dist = 0
 	summary['kurtosis'] = data.kurt() # kurtosis of normal dist = 0
 	summary['missing_vals'] = data.count().max() - data.describe().T['count']
-
-	print('Observations:\n' + '{}\n'.format(data.shape[0]))
-	print('{} features:'.format(data.shape[1]))
-	i = 1
-	for key in data.keys():
-		print('    {}) {}'.format(i, key))
-		i += 1
-	print('\n')
-	print('Sample:\n' + '{}\n'.format(data.head()))
 	print('Descriptive statistics:\n' + '{}\n'.format(summary.T))
-	print('Var-Cov matrix:\n' + '{}\n'.format(data.cov()))
+
+def corr(data):
+	print('Correlation matrix:\n' + '{}\n'.format(data.corr()))
 
 
-def plots_csv(data):
+def plots(data):
 	'''
 	Takes:
 		data, a pd.dataframe 
@@ -61,7 +64,7 @@ def plots_csv(data):
 		plt.close()
 
 
-def crosstabs_csv(data, label, features):
+def crosstabs(data, label, features):
 	'''
 	Takes:
 		data, a pd.dataframe
