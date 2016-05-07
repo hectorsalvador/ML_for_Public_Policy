@@ -42,28 +42,42 @@ def classify(X, y, models, iters, threshold, decision_metric = 'auc'):
 		A new dataframe comparing each classifier's performace on the given
 		evaluation metrics.
 	'''
-	rv = pd.DataFrame()
+	columns = ['time', 'avg_{}'.format(decision_metric), 'params']
+	rv = pd.DataFrame(index = models, columns = columns)
+	
+	best_metric = 0
+	best_model = ''
+	best_params = ''
+	best_models = {}
+	mtr = ['precision', 'recall', 'f1', 'auc']
+
+	# Construct train and test splits
+	xtrain, xtest, ytrain, ytest = \
+						train_test_split(X, y, test_size=0.2, random_state=0)
 	
 	# for every classifier, try any possible combination of parameters on grid
 	for index, clf in enumerate([classifiers[x] for x in models]):
 		name = models[index]
 		print(name)
 		parameter_values = grid[name]
-		top_intra_model_dec_metric = 0 	# so that we can get a best set of parameters
+		top_intra_metric = 0 	# so that we can get a best set of parameters
+		
 
 		for p in ParameterGrid(parameter_values):
-			dec_metric_per_iter = []
+			precision_per_iter = []
+			recall_per_iter = []
+			f1_per_iter = []
+			auc_per_iter = []
+			time_per_iter = []
+			avg_metrics = {}
 
 			for i in range(iters):
-					# Construct train and test splits
-				xtrain, xtest, ytrain, ytest = \
-						train_test_split(X, y, test_size=0.2, random_state=0)
 				try:
 					# run the model with the combinations of the above parameters
 					clf.set_params(**p)
 					print(clf)
 					start_time = time.time() # to calculate running time
-
+					
 					# get the predicted results from the model
 					if hasattr(clf, 'predict_proba'):
 						yscores = clf.fit(xtrain, ytrain).predict_proba(xtest)[:,1]
@@ -75,17 +89,33 @@ def classify(X, y, models, iters, threshold, decision_metric = 'auc'):
 
 					# obtain metrics
 					metrics = evaluate_classifier(ytest, yhat)
-					dec_metric_per_iter.append(metrics[decision_metric])
+					for met, value in metrics.items():
+						eval('{}_per_iter'.format(met)).append(value)
+					time_per_iter.append(end_time - start_time)
  				
 				except IndexError:
 					print('Error')
 					continue
 
-			avg_dec_metric = np.mean(dec_metric_per_iter)
-			if avg_dec_metric > top_intra_model_dec_metric:
-				top_intra_model_dec_metric = avg_dec_metric
+			avg_metrics['time'] = np.mean(time_per_iter)
+			for met in mtr:
+				avg_metrics[met] = np.mean(eval('{}_per_iter'.format(met)))
+
+			if avg_metrics[decision_metric] > top_intra_metric:
+				top_intra_metric = avg_metrics[decision_metric]
+				top_avg_metrics = avg_metrics
 				best_models[name] = p
-	return rv
+
+		to_append = [top_avg_metrics['time'], top_avg_metrics[decision_metric], p]
+		rv.append(to_append)
+
+		print('Finished running {}'.format(name))
+		if top_intra_metric > best_metric:
+			best_metric = top_intra_metric
+			best_model = name
+			best_params = clf
+
+	return rv, best_models
 
 
 def evaluate_classifier(ytest, yhat):
@@ -98,7 +128,7 @@ def evaluate_classifier(ytest, yhat):
 				'f1': f1_score(ytest, yhat),
 				'auc': roc_auc_score(ytest, yhat)}
 
-	for name, m in metrics:
+	for name, m in metrics.items():
 		print('{}: {}'.format(name, m))
 	
 	return metrics
