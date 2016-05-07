@@ -37,8 +37,8 @@ def transform_feature(data, feature, f):
 	Takes:
 		data, a pd.dataframe
 		feature, the feature we want to transform
-		f, any real function
+		f, any real function (e.g. lambda x: x**2 + 1)
 	'''
 
-	f_feat = 'f({})'.format(feature)
+	f_feat = 'f({})'.format(feature) #put a name on the function
 	data[f_feat] = data[feature].apply(lambda x: f(x))

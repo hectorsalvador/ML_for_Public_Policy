@@ -9,6 +9,7 @@ import pipeline.preprocess as prp
 import pipeline.classify as cls
 import pipeline.evaluate as evl
 import matplotlib.pyplot as plt 
+from sklearn.cross_validation import train_test_split
 
 PROB_THRESH1 = 0.5
 PROB_THRESH2 = 0.9
@@ -16,11 +17,20 @@ PROB_THRESH2 = 0.9
 plt.style.use('ggplot')
 pd.set_option('precision', 3)
 
+
 def go(filename, dtype):
 	df = rdn.read(filename, dtype)
-	
+	features = ['RevolvingUtilizationOfUnsecuredLines', 
+            'age', 'NumberOfTime30-59DaysPastDueNotWorse', 'DebtRatio', 
+            'MonthlyIncome', 'NumberOfOpenCreditLinesAndLoans', 
+            'NumberOfTimes90DaysLate', 'NumberRealEstateLoansOrLines', 
+            'NumberOfTime60-89DaysPastDueNotWorse', 'NumberOfDependents']
 
+	label = 'SeriousDlqin2yrs'
 
+	xtrain, xtest, ytrain, ytest = train_test_split(df[features], df[label])
+
+	models = ['LR', 'KNN', 'DT', 'SVM', 'RF', 'BOO', 'BAG']
 
 
 
