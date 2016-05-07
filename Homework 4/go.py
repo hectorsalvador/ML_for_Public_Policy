@@ -44,5 +44,5 @@ def go(filename):
 
 	# deploy classifiers
 	models = ['LR', 'KNN', 'DT', 'SVM', 'RF', 'BOO', 'BAG']
-	classify.classify(df[fts], df[label], models, 0.05)
+	results = classify.classify(df[fts], df[label], models, 3, 0.05, 'auc')
 
