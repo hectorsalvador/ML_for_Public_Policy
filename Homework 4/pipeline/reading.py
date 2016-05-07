@@ -11,8 +11,8 @@ import pandas as pd
 def read(filename, data_type = 'csv'):
 
 	data_types_all = ['csv', 'json']
-
 	assert data_type in data_types_all
+
 	if data_type == 'csv':
 		df = read_csv(filename)
 	elif data_type == 'json':
@@ -23,8 +23,6 @@ def read(filename, data_type = 'csv'):
 def read_csv(filename):
 	df = pd.read_csv(filename)
 	return df
-
-
 
 # def read_json(filename):
 # 	with open(filename) as data:

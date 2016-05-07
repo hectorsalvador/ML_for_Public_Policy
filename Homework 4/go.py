@@ -1,6 +1,14 @@
 ### Machine Learning for Public Policy
 ### Homework 2
 ### Héctor Salvador López
+### Code for the pipeline was significantly inspired on:
+### 	/rayidghani/magicloops/blob/master/magicloops.py
+### 	/BridgitD/Machine-Learning-Pipeline/blob/master/pipeline.py
+### 	/danilito19/CAPP-ML-dla/blob/master/pa3/workflow.py
+###		/ladyson/ml-for-public-policy/blob/master/PA3/pipeline.py
+### 	/demunger/CAPP30254/blob/master/HW3/hw3.py
+### 	/aldengolab/ML-basics/blob/master/pipeline/model.py
+
 
 import math
 import pandas as pd
@@ -43,6 +51,6 @@ def go(filename):
 	features.binning(df, 'f(MonthlyIncome)', 'quantiles', [0, 0.25, 0.5, 0.75, 1])
 
 	# deploy classifiers
-	models = ['LR', 'KNN', 'DT', 'SVM', 'RF', 'BOO', 'BAG']
-	results, models = classify.classify(df[fts], df[label], models, 3, 0.05, 'auc')
+	models = ['LR', 'KNN', 'DT', 'SVM', 'RF', 'GB']
+	results, models = classify.classify(df[fts], df[label], models, 3, 0.05)
 

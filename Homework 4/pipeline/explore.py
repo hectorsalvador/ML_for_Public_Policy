@@ -6,8 +6,6 @@ import pandas as pd
 import matplotlib.pyplot as plt 
 plt.style.use('ggplot')
 
-# read file depending on the data type
-
 def statistics_csv(data):
 	'''
 	Takes:
@@ -56,6 +54,7 @@ def plots_csv(data):
 		else:
 			data[feature].plot.hist()
 
+		# details for plots
 		plt.ylabel('Frequency')
 		plt.title('{}'.format(feature))
 		plt.savefig('histograms/{}'.format(feature) + '_hist')

@@ -15,10 +15,12 @@ def impute_csv(data, fill_type='mean', val=0):
 	assert fill_type in fill_types
 
 	j = 0
-	for feature in [i for i in data.keys()]:
-		feature_has_nulls = data[feature].isnull().values.any()
-		print('{}) {} has null values: {}.'.format(j, feature, feature_has_nulls))
-		if feature_has_nulls:
+
+	# for every feature with null values, replace the null values with the fill_type
+	for feature in data.keys():
+		has_nulls = data[feature].isnull().values.any()
+		print('{}) {} has null values: {}.'.format(j, feature, has_nulls))
+		if has_nulls:
 			print('  Filling nulls with {}.'.format(fill_type))
 			if fill_type == 'mean':
 				filling = data[feature].mean()
@@ -39,6 +41,5 @@ def transform_feature(data, feature, f):
 		feature, the feature we want to transform
 		f, any real function (e.g. lambda x: x**2 + 1)
 	'''
-
 	f_feat = 'f({})'.format(feature) #put a name on the function
 	data[f_feat] = data[feature].apply(lambda x: f(x))
