@@ -9,39 +9,34 @@
 ### 	/demunger/CAPP30254/blob/master/HW3/hw3.py
 ### 	/aldengolab/ML-basics/blob/master/pipeline/model.py
 
-
 import math
+import numpy as np
 import pandas as pd
 from pipeline import reading, explore, preprocess, features, classify
 from sklearn.cross_validation import train_test_split
 
+fts = ['RevolvingUtilizationOfUnsecuredLines', 
+        'age', 'NumberOfTime30-59DaysPastDueNotWorse', 'DebtRatio', 
+        'MonthlyIncome', 'NumberOfOpenCreditLinesAndLoans', 
+        'NumberOfTimes90DaysLate', 'NumberRealEstateLoansOrLines', 
+        'NumberOfTime60-89DaysPastDueNotWorse', 'NumberOfDependents']
 
-def go(filename):
-	# define features and label for this dataset
-	fts = ['RevolvingUtilizationOfUnsecuredLines', 
-            'age', 'NumberOfTime30-59DaysPastDueNotWorse', 'DebtRatio', 
-            'MonthlyIncome', 'NumberOfOpenCreditLinesAndLoans', 
-            'NumberOfTimes90DaysLate', 'NumberRealEstateLoansOrLines', 
-            'NumberOfTime60-89DaysPastDueNotWorse', 'NumberOfDependents']
-	label = 'SeriousDlqin2yrs'
+label = 'SeriousDlqin2yrs'
+filename = 'pipeline/data/cs-training.csv'
+models = ['LR', 'KNN', 'DT', 'SVM', 'RF', 'GB']
+metrics = ['precision', 'recall', 'f1', 'auc']
 
+def go(filename, features, label, models, metric):
 	# read dataset
 	df = reading.read(filename)
 
 	# divide dataset to train and test
-	xtrain, xtest, ytrain, ytest = train_test_split(df[fts], df[label])
+	xtrain, xtest, ytrain, ytest = train_test_split(df[features], df[label])
 	train = pd.concat([ytrain, xtrain], axis = 1)
 	test = pd.concat([ytest, xtest], axis = 1)
 	df = train
 
-	# generate statistics and generic exploration histograms
-	explore.basics(df)
-	explore.desc_statistics(df)
-	explore.corr(df)
-	explore.plots(df)
-	explore.crosstabs(df, label, fts)
-
-	# dive deeper into histograms
+	# details on exploration can be found on the jupyter notebook
 
 	# impute null values with mean value and transform income to log(income)
 	preprocess.impute_csv(df)
@@ -53,8 +48,12 @@ def go(filename):
 	fts.append(df.keys()[-1])
 
 	# deploy classifiers
-	models = ['LR', 'KNN', 'DT', 'SVM', 'RF', 'GB']
-	results, models = classify.classify(df[fts], df[label], models, 3, 0.05)
+	all_models = classify.classify(df[features], df[label], models, 3, 0.05, metrics)
+	table, best_models, winner = \
+		classify.select_best_models(all_models, models, metric)
 
-	#
+	# get plots 
+	classify.gen_precision_recall_plots(df[features], df[label], best_models)
+
+	return all_models, table, best_models, winner
 
